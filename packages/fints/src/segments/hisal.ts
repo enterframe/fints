@@ -24,14 +24,15 @@ export class HISAL extends SegmentClass(HISALProps) {
 
     protected deserialize(input: string[][]) {
         const [
-            [ accountNumber, subAccount, _country, blz ],
-            [ productName ],
-            [ currency ],
-            [ _cb, booked ],
-            [ _cp, pending ],
-            [ dispo ],
-            [ available ],
+          [ accountNumber, subAccount, _country, blz ],
+          [ productName ],
+          [ currency ],
+          [ , booked ],
+          [ , pending ],
+          ...rest
         ] = input;
+        const dispo = rest && rest[0] ? rest[0][0] : null;
+        const available = rest && rest[1] ? rest[1][0] : null;
         this.account = { accountNumber, subAccount, blz, iban: null, bic: null };
         this.productName = productName;
         this.currency = currency;
